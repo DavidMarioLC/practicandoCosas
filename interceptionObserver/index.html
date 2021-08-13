@@ -6,15 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      .box {
-        width: 100px;
-        height: 100px;
-        background: red;
+      body {
+        margin: 0;
+        background: rgb(20, 14, 37);
+      }
+      .header {
+        position: sticky;
+        top: 0px;
+        height: 80px;
+        background: purple;
+      }
+
+      .section {
+        height: 1200px;
+        margin-top: 20px;
+        border: 2px solid green;
+      }
+
+      .section:nth-child(2) {
+        background-color: rgb(6, 6, 48);
       }
     </style>
   </head>
   <body>
-    <div class="box"></div>
+    <header class="header"></header>
+    <section class="section"></section>
+    <section class="section"></section>
     <script src="./app.js"></script>
   </body>
 </html>
