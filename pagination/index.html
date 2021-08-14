@@ -5,22 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .pagination {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+    </style>
   </head>
   <body>
     <div class="table">
       <h2>Lista de usuarios</h2>
-      <ul class="list">
-        <li>David</li>
-        <li>Jose</li>
-        <li>Carlos</li>
-        <li>Miguel</li>
-      </ul>
+      <ul class="list"></ul>
       <div class="pagination">
-        <button class="pagination__button pagination__button--next">
-          Next
-        </button>
         <button class="pagination__button pagination__button--prev">
           Prev
+        </button>
+        <div class="pagination__pages">
+          <span class="current-page"></span>
+        </div>
+        <button class="pagination__button pagination__button--next">
+          Next
         </button>
       </div>
     </div>
