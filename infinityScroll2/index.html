@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .galery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        place-content: center;
+        place-items: center;
+        gap: 1rem;
+        height: 100%;
+      }
+
+      .galery__item {
+      }
+
+      .galery__item img {
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="galery">
+      <!-- <div class="galery__image">
+        <img src="http://place-puppy.com/200x200" alt="Placeholder Puppy" />
+      </div> -->
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

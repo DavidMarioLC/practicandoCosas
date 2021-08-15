@@ -27,12 +27,10 @@ window.addEventListener("scroll", () => {
   console.log("SCROLL Y: ", window.scrollY);
   console.log("INNER HEIGHT: ", window.innerHeight);
   console.log("SCROLL HEIGHT: ", document.body.scrollHeight);
-  // console.log("scrolled Y", window.scrollY); //scrolled from top
-  // console.log("InnerHeight", window.innerHeight); //visible part of screen
-  // if (
-  //   window.scrollY + window.innerHeight >=
-  //   document.documentElement.scrollHeight
-  // ) {
-  //   loadImages();
-  // }
+  if (
+    window.scrollY + window.innerHeight >=
+    document.documentElement.scrollHeight
+  ) {
+    loadImages();
+  }
 });
