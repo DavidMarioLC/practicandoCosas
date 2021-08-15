@@ -31,6 +31,7 @@ class Pagination {
     let start = this._limit * (this._page - 1);
     let end = start + this._limit;
     let data = this._data.slice(start, end);
+    //retornando los elementos seleccionados para recorrer
     return data;
   }
 
