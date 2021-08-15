@@ -1,26 +1,29 @@
+"use strict";
+
 class Pagination {
-  _page = 1;
-  _limit = 2;
+  _page = 0;
+  _limit = 0;
   _data = [];
+  _buttonPrev = null;
+  _buttonNext = null;
 
   constructor({ page, limit, data }) {
     this._page = page;
     this._limit = limit;
     this._data = data;
+    this._buttonPrev = document.querySelector(".pagination__button--prev");
+    this._buttonNext = document.querySelector(".pagination__button--next");
+    //enlazando fuerte debido al this del elemento
+    this._buttonPrev.addEventListener("click", this.prevPage.bind(this));
+    this._buttonNext.addEventListener("click", this.nextPage.bind(this));
     this.initPagination();
   }
-
-  nextPage() {}
-
-  prevPage() {}
 
   numberPages() {
     return Math.ceil(this._data.length / this._limit);
   }
 
   initPagination() {
-    const pagination__pages = document.querySelector(".pagination__pages");
-    pagination__pages.textContent = `${this._page} / ${this.numberPages()} `;
     this.renderPagination();
   }
 
@@ -32,9 +35,13 @@ class Pagination {
   }
 
   renderPagination() {
-    let data = this.generatePagination();
+    const pagination__pages = document.querySelector(".pagination__pages");
+    pagination__pages.textContent = `${this._page} / ${this.numberPages()} `;
 
+    let data = this.generatePagination();
     let table = document.querySelector(".table tbody");
+    table.innerHTML = "";
+
     data.forEach(
       (item) =>
         (table.innerHTML += `<tr>
@@ -43,6 +50,25 @@ class Pagination {
       <td>${item.age}</td>
     </tr>`)
     );
+
+    if (this._page === this.numberPages()) {
+      this._buttonNext.style.visibility = "hidden";
+    } else if (this._page <= 1) {
+      this._buttonPrev.style.visibility = "hidden";
+    } else {
+      this._buttonNext.style.visibility = "visible";
+      this._buttonPrev.style.visibility = "visible";
+    }
+  }
+
+  prevPage() {
+    this._page--;
+    this.renderPagination();
+  }
+
+  nextPage() {
+    this._page++;
+    this.renderPagination();
   }
 }
 
