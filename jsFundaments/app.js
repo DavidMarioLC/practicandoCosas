@@ -1,48 +1,59 @@
-class People {
-  _name = "";
-  _age = 0;
+const createStore = (reducer, initialState) => {
+  let state = initialState;
 
-  constructor(name, age) {
-    this._name = name;
-    this._age = age;
-  }
+  let updater = () => {};
 
-  getAge() {
-    return this._age;
-  }
+  const getState = () => {
+    return state;
+  };
 
-  getName() {
-    return this._name;
-  }
-}
+  const dispatch = (action) => {
+    state = reducer(action, state);
+    updater();
+  };
 
-class Employee extends People {
-  _role = "";
+  const subscribe = (listenChanges) => {
+    updater = listenChanges;
+  };
 
-  constructor(name, age, role) {
-    super(name, age);
-    this._role = role;
-  }
-
-  getRole() {
-    return this._role;
-  }
-}
-
-const employe = new Employee("david", 23, "Front End Engineer");
-
-const resultado = {
-  name: employe.getName(),
-  age: employe.getAge(),
-  role: employe.getRole(),
+  return {
+    getState,
+    dispatch,
+    subscribe,
+  };
 };
 
-//Practicing with Leo
-const objects = {
-  name: "david",
-  age: 2,
+const reducer = (action, state) => {
+  switch (action) {
+    case "14":
+      return {
+        users: state.users.filter((user) => user.age === 14),
+      };
+    case "13":
+      return {
+        users: state.users.filter((user) => user.age === 13),
+      };
+    default:
+      return state;
+  }
 };
 
-for (clave in objects) {
-  console.log(objects[clave]);
-}
+let initialState = {
+  users: [
+    { name: "user 1", age: 12 },
+    { name: "user 2", age: 13 },
+    { name: "user 3", age: 14 },
+    { name: "user 3", age: 14 },
+  ],
+};
+
+const store = createStore(reducer, initialState);
+//store.subscribe()
+//store.dispatch()
+//store.getState()
+
+store.subscribe(() => {
+  console.log("Observando cambios del store:", store.getState());
+});
+
+// store.dispatch("voy a cambiar algo");
