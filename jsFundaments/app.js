@@ -1,19 +1,19 @@
-const createStore = (reducer, initialState) => {
+const createStore = (initialState, reduce) => {
   let state = initialState;
 
-  let updater = () => {};
+  let fnListening = null;
 
   const getState = () => {
     return state;
   };
 
   const dispatch = (action) => {
-    state = reducer(action, state);
-    updater();
+    state = reduce(state, action);
+    fnListening();
   };
 
-  const subscribe = (listenChanges) => {
-    updater = listenChanges;
+  const subscribe = (fn) => {
+    fnListening = fn;
   };
 
   return {
@@ -23,37 +23,14 @@ const createStore = (reducer, initialState) => {
   };
 };
 
-const reducer = (action, state) => {
-  switch (action) {
-    case "14":
-      return {
-        users: state.users.filter((user) => user.age === 14),
-      };
-    case "13":
-      return {
-        users: state.users.filter((user) => user.age === 13),
-      };
-    default:
-      return state;
-  }
+const reducer = (state, action) => {
+  return action;
 };
 
-let initialState = {
-  users: [
-    { name: "user 1", age: 12 },
-    { name: "user 2", age: 13 },
-    { name: "user 3", age: 14 },
-    { name: "user 3", age: 14 },
-  ],
-};
-
-const store = createStore(reducer, initialState);
-//store.subscribe()
-//store.dispatch()
-//store.getState()
+const store = createStore("soy el estado global", reducer);
 
 store.subscribe(() => {
-  console.log("Observando cambios del store:", store.getState());
+  console.log("Estoy escuchando los cambios del estado", store.getState());
 });
 
-// store.dispatch("voy a cambiar algo");
+store.dispatch("primer cambio");
