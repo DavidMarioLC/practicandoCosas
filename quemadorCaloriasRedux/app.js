@@ -21,13 +21,18 @@ const createStore = (initialState, reducer) => {
     subscribe,
   };
 };
-
 //reducers
 const reducer = (state, action) => {
   switch (action.type) {
     case "TYPE_BURN":
       return {
+        ...state,
         caloriesAdd: state.caloriesAdd + action.payload.value,
+      };
+
+    case "TYPE_DESCOUNT":
+      return {
+        ...state,
         totalCalories: state.totalCalories - action.payload.value,
       };
 
@@ -54,20 +59,26 @@ store.subscribe(() => {
 });
 
 //actions
-const clickAdd = (value) => {
-  return {
-    type: "TYPE_BURN",
-    payload: {
-      value,
-    },
-  };
-};
-//action-index
+const clickAdd = (value) => ({
+  type: "TYPE_BURN",
+  payload: {
+    value,
+  },
+});
+const discountCalories = (value) => ({
+  type: "TYPE_DESCOUNT",
+  payload: {
+    value,
+  },
+});
+
+//execute action
 const burn = () => {
-  store.dispatch(clickAdd(1.42));
+  const VALUE = 1.42;
+  store.dispatch(clickAdd(VALUE));
+  store.dispatch(discountCalories(VALUE));
 };
 
 //subscribe
 store.dispatch(clickAdd(0));
-
 window.burn.addEventListener("click", burn);
