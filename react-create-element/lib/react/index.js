@@ -1,0 +1,4 @@
+//import and export trucazo
+
+export { Component } from "./src/React.js";
+export { createElement, createElement as jsx } from "./src/ReactElement.js";
