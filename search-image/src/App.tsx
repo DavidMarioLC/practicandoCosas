@@ -2,8 +2,11 @@ import {useState,useEffect} from 'react'
 import './App.css'
 
 function App() {
-  const [search,setSearch] = useState<string>('cats')
+  const [search,setSearch] = useState<string>('')
   const [listImages,setListImage] = useState<[]>([])
+  const [currentPage,setCurrentPage] = useState<number>(1)
+  const [totalPages,setTotalPage] = useState<number>(5);
+
   useEffect(() => {
    
     const fetchApi = async () => {
@@ -12,25 +15,50 @@ function App() {
       //paginators 
       const IMAGE_BY_PAGE = 10;
       const API_KEY = '23782832-a08ee4ab4299c2e8c036c2c76';
-      const URL = `https://pixabay.com/api/?key=${API_KEY}&q=${search}&per_page=${IMAGE_BY_PAGE}`
+      const URL = `https://pixabay.com/api/?key=${API_KEY}&q=${search}&per_page=${IMAGE_BY_PAGE}&page=${currentPage}`
      
       const response = await fetch(URL)
-      const {hits:lista} = await response.json()
-      // console.log(data);
-      setListImage(lista)
+      const data = await response.json()
+  
+      setListImage(data.hits)
+  
+      //total page
+      const totalPage = Math.ceil(data.totalHits/IMAGE_BY_PAGE)
+      setTotalPage(totalPage)
     }
     fetchApi()
-  }, [search])
+  }, [search,currentPage])
 
+  const paginaAnterior = () => {
+    const nuevaPaginaActual = currentPage - 1;
+    if(nuevaPaginaActual <0) return;
+    
+    setCurrentPage(nuevaPaginaActual);
+    
+
+  }
+
+  const paginaSiguiente = () =>{
+    const nuevaPaginaActual = currentPage + 1;
+    if(nuevaPaginaActual >totalPages) return;
+    
+    setCurrentPage(nuevaPaginaActual);
+  }
 
   return (
     <div className="container">
+      
       <div className="jumbotron">
         <p className="lead text-center">Search Images</p>
       <Form setSearch={setSearch}/>
       </div>
+     
       <div className="row justify-content-center">
+      <button onClick={paginaAnterior}  disabled={currentPage===0?true:false} type="button" className="btn btn-info mr-1">anterior</button>
+           <span>{currentPage}</span>
+          <button onClick={paginaSiguiente} disabled={currentPage===totalPages?true:false}  type="button" className="btn btn-info mr-1">siguiente</button>
           <ListImagesGalery listImages={listImages}/>
+         
       </div>
     </div>
   );
@@ -136,7 +164,7 @@ const Image = ({image}:Iimage)=> {
        <p className="card-text">{views} Vistas</p>
      </div>
      <div className="card-footer">
-       <a href={largeImageURL} target='_blank' rel="noopener" className="btn btn-primary btn-block">Ver image</a>
+       <a href={largeImageURL} target='_blank'   rel="noreferrer" className="btn btn-primary btn-block">Ver image</a>
      </div>
    </div>
    </div>
