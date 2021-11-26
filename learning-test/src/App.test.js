@@ -1,10 +1,16 @@
 import { create } from 'react-test-renderer';
 import App from './App';
 
-const component = create(<App />);
-const header = component.root.findByType('header');
+let component = undefined;
+let header = undefined;
 
 describe('Grupo de test de <App/>', () => {
+  //ejecutar antes de todos los casos de pruebas de
+  beforeAll(() => {
+    component = create(<App />);
+    header = component.root.findByType('header');
+  });
+
   //1- unit testing
   it('se renderiza correctamente', () => {
     //evaluando que el componente este definido
